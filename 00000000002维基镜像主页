@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>维基镜像</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Lato', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        .search-bar {
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        .search-bar input {
+            width: 50%;
+            padding: 10px;
+            font-size: 1em;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #36c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .languages {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .languages a {
+            text-decoration: none;
+            color: #36c;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .section {
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+        .section h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        #search-results {
+            position: absolute;
+            top: 100%;
+            left: 25%;
+            width: 50%;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        #search-results a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        #search-results a:hover {
+            background-color: #f0f0f0;
+        }
+        #search-results .no-result {
+            padding: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://s2.loli.net/2024/08/18/5bBeEwc3UGAqsi8.png" alt="维基百科标识">
+            <div class="logo">维基镜像</div>
+            <p>一个防火墙内的维基百科复制条目，完全公益的运营</p>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="搜索条目">
+            <div id="search-results"></div>
+        </div>
+
+        <div class="main-content">
+            <div class="section">
+                <h2>特色条目</h2>
+                <p><a href="https://gfw-1ew.pages.dev/" target="_blank">中国网络防火长城（GFW）</a>（英語：Great Firewall，GFW），中国国家防火墙，或简称为墙、防火墙等，中国网信办称其为数据跨境安全网关，是该国政府过滤国际互联网出口内容的软硬件系统集合。</p>
+            </div>
+            <div class="section">
+                <h2>页面上新</h2>
+<p>我们还在不断更新中，更多页面敬请期待。</p>
+                <ul>
+                    <li><a href="https://gfw-1ew.pages.dev/" target="_blank">中国网络防火长城（GFW）</a></li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>关于我们</h2>
+<p>我们是完全公益运营的维基百科部分镜像，通过手动复制维基百科内容并部署到网站创立镜像。我们不会插入广告，完全公益运营。我们的目的是共享国内无法访问的知识。这是这个项目的主页。</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>本站内容采用CC BY-SA 3.0协议授权</p>
+        <p>维基百科科标志是维基百科标识，版权为其所有</p>
+    </footer>
+
+    <script>
+        const pages = [
+            { title: "中国网络防火长城", pinyin:"zhongguowangluofanghuochangchengGFW", url: "https://gfw-1ew.pages.dev/" },
+        ];
+
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            searchResults.innerHTML = '';
+
+            if (searchTerm.length > 0) {
+const matchedPages = pages.filter(page => 
+    page.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    page.pinyin.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+                if (matchedPages.length > 0) {
+                    matchedPages.forEach(page => {
+                        const link = document.createElement('a');
+                        link.href = page.url;
+                        link.textContent = page.title;
+                        link.target = "_blank";
+                        searchResults.appendChild(link);
+                    });
+                } else {
+                    const noResult = document.createElement('div');
+                    noResult.className = 'no-result';
+                    noResult.textContent = "无相关条目，试试其他的关键词";
+                    searchResults.appendChild(noResult);
+                }
+
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function(e) {
+            if (e.target !== searchInput && e.target !== searchResults) {
+                searchResults.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
